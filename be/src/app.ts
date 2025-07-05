@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import router from '@/routes/index';
+import connection from '@/config/mongoose';
 
 dotenv.config();
 const app = express();
@@ -15,6 +17,13 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Connect to MongoDB
+connection().catch(err => {
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1);
+})
+
+app.use('/api/v1', router);
 app.use('/{*any}', (req, res) => {
   res.status(404).json({
     error: 'Route not found',

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { genSalt, hash } from "bcrypt"
+import { genSalt, hash } from "bcrypt";
 
 export interface User {
   _id?: string;
   email: string;
-  username: string;
+  userName: string;
   firstName?: string;
   lastName?: string;
   password: string;
@@ -18,10 +18,10 @@ export interface User {
 const userSchema = new mongoose.Schema<User>(
   {
     email: { type: String, required: true, unique: true },
-    username: { type: String, required: true, unique: true },
+    userName: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     firstName: { type: String, default: "" },
     lastName: { type: String, default: "" },
-    password: { type: String, required: true },
     image: { type: String, default: "" },
     color: { type: Number },
     profileSetup: { type: Boolean, default: false },
